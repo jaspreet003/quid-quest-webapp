@@ -1,6 +1,31 @@
 'use client'
 import Link from "next/link"
+import { useState } from "react"
+
+const features = [
+  {
+    title: "Secure Authentication",
+    subTitle: "With robust login systems and JWT token authentication, users can be assured of secure access to their expense data",
+    image: "/images/screenshot.png"
+  },
+  {
+    title: "Secure Authentication2",
+    subTitle: "With bust login systems and JWT token authentication, users can be assured of secure access to their expense data",
+    image: "/images/onboardingBackground.jpg"
+  },
+  {
+    title: "Secure Authentication3",
+    subTitle: "With thrust login systems and JWT token authentication, users can be assured of secure access to their expense data",
+    image: "/images/screenshot.png"
+  },
+]
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
+
 export default function Home() {
+  const [activeFeature, setActiveFeature] = useState(features[0])
   return (
 
     <div>
@@ -54,42 +79,27 @@ export default function Home() {
             <div className="mx-4 flex overflow-x-auto pb-4 sm:mx-0 sm:overflow-visible sm:pb-0 lg:col-span-5">
               <div className="relative z-10 flex gap-x-4 whitespace-normal px-4 sm:mx-auto sm:px-0 " role="tablist" aria-orientation="horizontal">
                 {/* setting up each feature */}
-                <div className="group relative rounded-full px-4 py-1 lg:px-6 lg:py-2 bg-white ">
-                  <h3>
-                    <Link href={"#"} className="font-display text-lg lg:text-xl ui-not-focus-visible:outline-none text-green-900 " id="headlessui-tabs-tab-:R2baalla" type="button" aria-selected="true" tabIndex="0" data-headlessui-state="selected" aria-controls="headlessui-tabs-panel-:Rdaalla:">Secure authentication</Link>
-                  </h3>
-
-
-                </div>
-                <div className="group relative rounded-full px-4 py-1 lg:px-6 lg:py-2 bg-white ">
-                  <h3>
-                    <Link href={"#"} className="font-display text-lg lg:text-xl ui-not-focus-visible:outline-none text-green-900 " id="headlessui-tabs-tab-:R2baalla" type="button" aria-selected="true" tabIndex="0" data-headlessui-state="selected" aria-controls="headlessui-tabs-panel-:Rdaalla:">Invitation and Role Management</Link>
-                  </h3>
-
-
-                </div>
-                <div className="group relative rounded-full px-4 py-1 lg:px-6 lg:py-2 bg-white ">
-                  <h3>
-                    <Link href={"#"} className="font-display text-lg lg:text-xl ui-not-focus-visible:outline-none text-green-900 " id="headlessui-tabs-tab-:R2baalla" type="button" aria-selected="true" tabIndex="0" data-headlessui-state="selected" aria-controls="headlessui-tabs-panel-:Rdaalla:">Categorized Expenses</Link>
-                  </h3>
-
-
-                </div><div className="group relative rounded-full px-4 py-1 lg:px-6 lg:py-2 bg-white ">
-                  <h3>
-                    <Link href={"#"} className="font-display text-lg lg:text-xl ui-not-focus-visible:outline-none text-green-900 " id="headlessui-tabs-tab-:R2baalla" type="button" aria-selected="true" tabIndex="0" data-headlessui-state="selected" aria-controls="headlessui-tabs-panel-:Rdaalla:">Managerial Oversight</Link>
-                  </h3>
-
-
-                </div>
-
+                {
+                  features.map((feature) =>
+                  (
+                    <div className={classNames(activeFeature.title == feature.title ? "group relative rounded-full px-4 py-1 lg:px-6 lg:py-2 bg-green-900 text-white border-2 border-green-900 shadow-md" : "group relative rounded-full px-4 py-1 lg:px-6 lg:py-2 bg-white border-2 border-white")}>
+                      <h3>
+                        <button
+                          onClick={() => setActiveFeature(feature)}
+                          className="font-display text-lg lg:text-xl ui-not-focus-visible:outline-none  " type="button">{feature.title}</button>
+                      </h3>
+                    </div>
+                  )
+                  )
+                }
               </div>
 
             </div>
           </div>
           {/* screenshot */}
           <div className="pt-8 bg-white m-6 rounded-lg shadow-md">
-            <p className="m-auto px-4 text-lg pb-4">{"With robust login systems and JWT token authentication, users can be assured of secure access to their expense data."}</p>
-            <img src="/images/screenshot.png" className="rounded-b-lg  border-t-2 border-gray-400" />
+            <p className="m-auto px-4 text-lg pb-4">{activeFeature.subTitle}</p>
+            <img src={activeFeature.image} className="rounded-b-lg  border-t-2 border-gray-400" />
           </div>
         </div>
       </section>
