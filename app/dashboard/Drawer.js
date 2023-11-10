@@ -14,30 +14,53 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: false },
+  { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: false, subMenu: [], },
   {
     name: "Employees",
     href: "/dashboard/employees",
     icon: UsersIcon,
     current: false,
+    subMenu: [],
   },
   {
     name: "Expenses",
     href: "/dashboard/expenses",
     icon: FolderIcon,
     current: false,
+    subMenu: [
+      {}
+    ],
   },
   {
     name: "Reports",
     href: "/dashboard/reports",
     icon: ChartPieIcon,
     current: false,
+    subMenu: [],
   },
   {
     name: "Setting",
     href: "/dashboard/setting",
     icon: Cog6ToothIcon,
     current: false,
+    subMenu: [
+      {
+        name: "Update Profile",
+        href: "/dashboard/setting/update-profile",
+      },
+      {
+        name: "Manage Department",
+        href: "/dashboard/setting/manage-department",
+      },
+      {
+        name: "Manage Categories",
+        href: "/dashboard/setting/update-profile",
+      },
+      {
+        name: "Modify Password",
+        href: "/dashboard/setting/manage-department",
+      }
+    ]
   },
 ];
 
@@ -135,24 +158,40 @@ export default function Drawer() {
                         <ul role="list" className="-mx-2 space-y-1">
                           {navigation.map((item, i) => (
                             <li key={item.name}>
-                              {item.name == 'Setting' ?
-                                <button
-                                  type="button"
-                                  onClick={() => setShowSettingsSubMenu(!showSettingsSubMenu)}
-                                  className={classNames(
-                                    currentPage
-                                      ? "bg-gray-800 text-white"
-                                      : "text-gray-400 hover:text-white hover:bg-gray-800",
-                                    "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full"
-                                  )}
-                                >
-                                  <item.icon
-                                    className="h-6 w-6 shrink-0"
-                                    aria-hidden="true"
-                                  />
-                                  {item.name}
-                                </button>
+                              {item.subMenu.length > 0 ?
+                                <div>
+                                  <button
+                                    type="button"
+                                    onClick={() => setShowSettingsSubMenu(!showSettingsSubMenu)}
+                                    className={classNames(
+                                      currentPage
+                                        ? "bg-gray-800 text-white"
+                                        : "text-gray-400 hover:text-white hover:bg-gray-800",
+                                      "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full"
+                                    )}
+                                  >
+                                    <item.icon
+                                      className="h-6 w-6 shrink-0"
+                                      aria-hidden="true"
+                                    />
+                                    {item.name}
+                                  </button>
+                                  {
+                                    showSettingsSubMenu ?
+                                      <li className="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold text-white bg-[#0000002c] ml-6 pl-4 flex-col">
+                                        {settingsSubMenu.map((i) => (
+                                          <a
+                                            href={i.href}
+                                            className="text-gray-400 py-2"
+                                          >
 
+                                            {i.name}
+                                          </a>
+                                        ))}
+                                      </li>
+                                      : <></>
+                                  }
+                                </div>
                                 :
                                 <a
                                   href={item.href}
@@ -172,21 +211,7 @@ export default function Drawer() {
                               }
                             </li>
                           ))}
-                          {
-                            showSettingsSubMenu ?
-                              <li className="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold text-white bg-[#0000002c] ml-6 pl-4 flex-col">
-                                {settingsSubMenu.map((i) => (
-                                  <a
-                                    href={i.href}
-                                    className="text-gray-400 py-2"
-                                  >
 
-                                    {i.name}
-                                  </a>
-                                ))}
-                              </li>
-                              : <></>
-                          }
                         </ul>
 
                       </li>
