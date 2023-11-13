@@ -1,17 +1,27 @@
-import './globals.css'
-import { Inter } from 'next/font/google'
+import Drawer from "./Drawer";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
-const inter = Inter({ subsets: ['latin'] })
+export default async function DashboardLayout({ children }) {
+  const cookieStore = cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
-export const metadata = {
-  title: 'Quid Quest Web App',
-  description: 'An Expense Tracker',
-}
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-export default function RootLayout({ children }) {
+  if (!session) {
+    // this is a protected route - only users who are signed in can view this route
+    redirect("/auth/login");
+  }
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
-  )
+    <div>
+      <Drawer />
+
+      <main className="py-10 lg:pl-72">
+        <div className="px-4 sm:px-6 lg:px-8">{children}</div>
+      </main>
+    </div>
+  );
 }
