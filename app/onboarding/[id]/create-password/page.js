@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useParams, useRouter } from "next/navigation";
-
+  
 export default function ResetPassword() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [password, setPassword] = useState("");
