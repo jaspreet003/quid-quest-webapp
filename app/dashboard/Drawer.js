@@ -11,7 +11,20 @@ import {
 } from "@heroicons/react/24/outline";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
-
+const settingsNav = [
+  {
+    name: "Update Password",
+    href: "/dashboard/settings/update-password",
+  },
+  {
+    name: "Manage Departments",
+    href: "/dashboard/settings/manage-departments",
+  },
+  {
+    name: "Manage Categories ",
+    href: "/dashboard/settings/manage-categories",
+  }
+]
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: false },
   {
@@ -37,8 +50,11 @@ const navigation = [
     href: "/dashboard/setting",
     icon: ChartPieIcon,
     current: false,
+    internalMenu: settingsNav,
   },
 ];
+
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -47,12 +63,20 @@ function classNames(...classes) {
 export default function Drawer() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(false);
+  const [internalMenuState, setInterMenuState] = useState(navigation.map((_) => false))
+
   const router = useRouter();
   const supabase = createClientComponentClient();
   const handleLogout = async () => {
     await supabase.auth.signOut();
     router.replace("/auth/login");
   };
+
+  const handleInternalMenuToggle = (i) => {
+    let newState = [...internalMenuState];
+    newState[i] = !newState[i];
+    setInterMenuState(newState);
+  }
   return (
     <>
       <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -165,23 +189,42 @@ export default function Drawer() {
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
               <li>
                 <ul role="list" className="-mx-2 space-y-1">
-                  {navigation.map((item) => (
+                  {navigation.map((item, i) => (
                     <li key={item.name}>
-                      <a
+                      {!item.internalMenu ? <a
                         href={item.href}
-                        className={classNames(
-                          currentPage
-                            ? "bg-green-800 text-white"
-                            : "text-gray-400 hover:text-white hover:bg-green-800",
-                          "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                        )}
+                        className={"text-gray-400 hover:text-white hover:bg-green-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"}
                       >
                         <item.icon
                           className="h-6 w-6 shrink-0"
                           aria-hidden="true"
                         />
                         {item.name}
-                      </a>
+                      </a> :
+                        <>
+                          <button type="button"
+                            className={"text-gray-400 hover:text-white hover:bg-green-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"}
+                            onClick={() => handleInternalMenuToggle(i)}
+                          >
+                            <item.icon
+                              className="h-6 w-6 shrink-0"
+                              aria-hidden="true"
+                            />
+                            {item.name}
+                          </button>
+                          <ul role="list" className="-mx-2 space-y-1">
+                            {internalMenuState[i] && item.internalMenu.map((inItem) => {
+                              return (
+                                <li key={inItem.name}>
+                                  <a href={inItem.href} className="text-black mx-4 py-3">
+                                    {inItem.name}
+                                  </a>
+                                </li>
+                              )
+                            })}
+                          </ul>
+                        </>
+                      }
                     </li>
                   ))}
                 </ul>
@@ -219,7 +262,7 @@ export default function Drawer() {
             className="h-8 w-8 rounded-full bg-gray-800"
             src="https://picsum.photos/200"
             alt=""
-            
+
           />
         </a>
       </div>
