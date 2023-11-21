@@ -1,6 +1,10 @@
 export default function manageDepartmentPage() {
-    return <div className="lg:w-1/3 lg:flex lg:flex-row lg:justify-center">
-        <div className="lg:flex lg:flex-row lg:items-center">
+    return
+    <div className="lg:w-1/3 lg:flex lg:flex-row lg:justify-center">
+        <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+            <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Manage Department</h2>
+            </div>
             <ul role="list" class="divide-y divide-gray-100">
                 <li class="flex items-center justify-between gap-x-6 py-5">
                     <div class="flex min-w-0 gap-x-4">
@@ -11,7 +15,6 @@ export default function manageDepartmentPage() {
 
             </ul>
         </div>
-
     </div>
 }
 
