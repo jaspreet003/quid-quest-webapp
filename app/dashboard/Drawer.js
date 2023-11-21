@@ -2,8 +2,10 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
+  ArrowDownIcon,
   Bars3Icon,
   ChartPieIcon,
+  ChevronUpIcon,
   FolderIcon,
   HomeIcon,
   UsersIcon,
@@ -11,6 +13,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 const settingsNav = [
   {
     name: "Update Password",
@@ -203,20 +206,27 @@ export default function Drawer() {
                       </a> :
                         <>
                           <button type="button"
-                            className={"text-gray-400 hover:text-white hover:bg-green-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"}
+                            className={"text-gray-400 hover:text-white hover:bg-green-800 w-full group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"}
                             onClick={() => handleInternalMenuToggle(i)}
                           >
-                            <item.icon
-                              className="h-6 w-6 shrink-0"
-                              aria-hidden="true"
-                            />
-                            {item.name}
+                            <div className="w-full flex flex-row justify-between">
+                              <div className="flex flex-row gap-x-3">
+                                <item.icon
+                                  className="h-6 w-6 shrink-0"
+                                  aria-hidden="true"
+                                />
+                                {item.name}
+                              </div>
+                              {!internalMenuState[i] ? <ChevronDownIcon className="w-6 h-6" /> :
+                                <ChevronUpIcon className="w-6 h-6" />}
+
+                            </div>
                           </button>
-                          <ul role="list" className="-mx-2 space-y-1">
+                          <ul role="list" className="w-full space-y-2 mt-2 ml-2">
                             {internalMenuState[i] && item.internalMenu.map((inItem) => {
                               return (
-                                <li key={inItem.name}>
-                                  <a href={inItem.href} className="text-black mx-4 py-3">
+                                <li key={inItem.name} className="w-full">
+                                  <a href={inItem.href} className=" hover:bg-green-900  text-white py-3 text-sm px-8">
                                     {inItem.name}
                                   </a>
                                 </li>
