@@ -2,17 +2,17 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
-  ArrowDownIcon,
   Bars3Icon,
-  ChartPieIcon,
+  Cog6ToothIcon,
   ChevronUpIcon,
   FolderIcon,
   HomeIcon,
   UsersIcon,
   XMarkIcon,
+  ChartPieIcon
 } from "@heroicons/react/24/outline";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 const settingsNav = [
   {
@@ -26,6 +26,10 @@ const settingsNav = [
   {
     name: "Manage Categories ",
     href: "/dashboard/setting/manage-categories",
+  },
+  {
+    name: "Update Profile",
+    href: "/dashboard/setting/update-profile",
   }
 ]
 const navigation = [
@@ -51,7 +55,7 @@ const navigation = [
   {
     name: "Setting",
     href: "/dashboard/setting",
-    icon: ChartPieIcon,
+    icon: Cog6ToothIcon,
     current: false,
     internalMenu: settingsNav,
   },
@@ -69,6 +73,11 @@ export default function Drawer() {
   const [internalMenuState, setInterMenuState] = useState(navigation.map((_) => false))
 
   const router = useRouter();
+  const path = usePathname();
+
+  if (path.includes("setting")) {
+    internalMenuState[4] = true;
+  }
   const supabase = createClientComponentClient();
   const handleLogout = async () => {
     await supabase.auth.signOut();

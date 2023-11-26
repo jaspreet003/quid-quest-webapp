@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-export default function updatePasswordPage() {
+export default function () {
     const supabase = createClientComponentClient();
     const [pass, setPass] = useState(null);
     const [confirmPass, setConfirmPass] = useState(null);
