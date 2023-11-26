@@ -17,15 +17,15 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 const settingsNav = [
   {
     name: "Update Password",
-    href: "/dashboard/settings/update-password",
+    href: "/dashboard/setting/update-password",
   },
   {
     name: "Manage Departments",
-    href: "/dashboard/settings/manage-departments",
+    href: "/dashboard/setting/manage-departments",
   },
   {
     name: "Manage Categories ",
-    href: "/dashboard/settings/manage-categories",
+    href: "/dashboard/setting/manage-categories",
   }
 ]
 const navigation = [
