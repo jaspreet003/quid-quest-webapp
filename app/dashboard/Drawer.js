@@ -47,12 +47,6 @@ const navigation = [
     current: false,
   },
   {
-    name: "Reports",
-    href: "/dashboard/reports",
-    icon: ChartPieIcon,
-    current: false,
-  },
-  {
     name: "Setting",
     href: "/dashboard/setting",
     icon: Cog6ToothIcon,
@@ -76,7 +70,7 @@ export default function Drawer() {
   const path = usePathname();
 
   if (path.includes("setting")) {
-    internalMenuState[4] = true;
+    internalMenuState[3] = true;
   }
   const supabase = createClientComponentClient();
   const handleLogout = async () => {
