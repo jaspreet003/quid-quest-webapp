@@ -8,11 +8,13 @@ export default function () {
     const supabase = createClientComponentClient();
     const [newCat, setNewCat] = useState("");
     const [categoriesList, setCategoriesList] = useState([])
+    const companyID = JSON.parse(localStorage.getItem("companyDetails")).id;
 
-    async function getCategoryList() {
+    const getCategoryList = async () => {
         const { data, error } = await supabase.from("Categories").select("*");
         if (data) {
-            setCategoriesList(data)
+            setCategoriesList([...data])
+            localStorage.setItem('categories', JSON.stringify([...data]));
         }
         if (error) {
             console.log(error)
@@ -20,30 +22,47 @@ export default function () {
         }
     }
 
-    async function deleteCategory(id) {
+    const deleteCategory = async (id) => {
         const { error } = await supabase.from("Categories").delete().eq("id", id)
         if (error) {
-            console.log(error)
-            getCategoryList();
-        } else {
-            alert("deleted it")
+            alert("Category already in use")
         }
+        getCategoryList();
     }
 
-    async function addCategory() { }
+    const addCategory = async (e) => {
+        e.preventDefault();
+        if (!newCat) {
+            alert("Please insert a category name");
+            return
+        }
+        const { error } = await supabase.from("Categories").insert({
+            name: newCat,
+            company: companyID,
+        })
+
+        getCategoryList();
+        setNewCat("")
+
+        if (error) {
+            console.log(error);
+        }
+
+    }
 
     useEffect(() => {
         getCategoryList();
     }, [])
     return (
         <div className="lg:mx-60">
-            <form className="flex flex-row justify-around gap-4 mb-4">
+            <form className="flex flex-row justify-around gap-4 mb-4" onSubmit={addCategory}>
                 <input id="newCat" name="newCat" type="text" autoComplete="newCat" required className="block px-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                     value={newCat}
                     onChange={(e) => setNewCat(e.target.value)}
                     placeholder="new category name"
                 />
-                <button type="submit" className="flex w-32 justify-center items-center rounded-md bg-green-600 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">Add</button>
+                <button
+                    type="submit" className="flex w-32 justify-center items-center rounded-md bg-green-600 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">Add</button>
             </form>
             <ul role="list" className="divide-y divide-gray-100">
                 {categoriesList.map((cat) => (
