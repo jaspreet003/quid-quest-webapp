@@ -9,6 +9,7 @@ import {
   HomeIcon,
   UsersIcon,
   XMarkIcon,
+  ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { usePathname, useRouter } from "next/navigation";
@@ -163,18 +164,18 @@ export default function Drawer() {
                   </div>
                 </Transition.Child>
                 {/* Sidebar component, swap this element with another sidebar if you like */}
-                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-green-950 px-6 pb-2 ring-1 ring-white/10">
-                  <div className="flex h-16 shrink-0 items-center">
+                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-green-950">
+                  <div className="flex h-16 shrink-0 items-center px-6">
                     <img
                       className="h-11 w-auto pt-2"
                       src="/images/logo.png"
                       alt="Your Company"
                     />
                   </div>
-                  <nav className="flex flex-1 flex-col">
-                    <ul role="list" className="flex flex-1 flex-col gap-y-7">
+                  <nav className="flex flex-1 flex-col ">
+                    <ul role="list" className="flex flex-1 flex-col justify-between">
                       <li>
-                        <ul role="list" className="-mx-2 space-y-1">
+                        <ul role="list" className="-mx-2 space-y-1 px-6">
                           {navigation.map((item, i) => (
                             <li key={item.name}>
                               {!item.internalMenu ? <a
@@ -222,6 +223,18 @@ export default function Drawer() {
                           ))}
                         </ul>
                       </li>
+                      <li key={"logout"} >
+                        <button
+                          className={
+                            "group text-gray-400 w-full flex py-3 px-6 text-sm font-semibold mb-1 hover:text-white hover:bg-green-800 "
+
+                          }
+                          onClick={handleLogout}
+                        >
+                          <ArrowLeftOnRectangleIcon className="h-6 w-6 text-gray-400 mr-2" />
+                          {"Logout"}
+                        </button>
+                      </li>
                     </ul>
                   </nav>
                 </div>
@@ -234,8 +247,8 @@ export default function Drawer() {
       {/* Static sidebar for desktop */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
         {/* Sidebar component, swap this element with another sidebar if you like */}
-        <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-green-950 px-6">
-          <div className="flex h-16 shrink-0 items-center">
+        <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-green-950">
+          <div className="flex h-16 shrink-0 items-center px-6">
             <img
               className="h-12 w-auto pt-2"
               src="/images/logo.png"
@@ -243,9 +256,9 @@ export default function Drawer() {
             />
           </div>
           <nav className="flex flex-1 flex-col">
-            <ul role="list" className="flex flex-1 flex-col gap-y-7">
+            <ul role="list" className="flex flex-1 flex-col justify-between ">
               <li>
-                <ul role="list" className="-mx-2 space-y-1">
+                <ul role="list" className="-mx-2 space-y-1 px-6">
                   {navigation.map((item, i) => (
                     <li key={item.name}>
                       {!item.internalMenu ? <a
@@ -293,13 +306,14 @@ export default function Drawer() {
                   ))}
                 </ul>
               </li>
-              <li key={"logout"}>
+              <li key={"logout"} >
                 <button
                   className={
-                    "text-gray-400 hover:text-white hover:bg-green-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                    "group text-gray-400 w-full flex py-3 px-6 text-sm font-semibold mb-1 hover:text-white hover:bg-green-800 "
                   }
                   onClick={handleLogout}
                 >
+                  <ArrowLeftOnRectangleIcon className="h-6 w-6 text-gray-400 mr-2 " />
                   {"Logout"}
                 </button>
               </li>
