@@ -20,6 +20,7 @@ export default function InviteByEmail({ showModal, setShowModal }) {
   const [apiError, setApiError] = useState(false);
 
   const [sent, setSent] = useState(false);
+  const departments = JSON.parse(localStorage.getItem("departments"))
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -169,14 +170,8 @@ export default function InviteByEmail({ showModal, setShowModal }) {
           </div>
           <div>
             <span className="text-lg font-bold">Department</span>
-            <DropdownBoxFunction></DropdownBoxFunction>
+            <DropdownBoxFunction list={departments}></DropdownBoxFunction>
           </div>
-
-          <div>
-            <span className="text-lg font-bold">Title</span>
-            <DropdownBoxFunction></DropdownBoxFunction>
-          </div>
-
           <div className="h-2" />
           <StandardButtonGreen
             btnText={"send invitation"}

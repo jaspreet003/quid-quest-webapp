@@ -2,18 +2,13 @@ import { Fragment, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
-const department = [
-    { id: 1, name: 'Warehouse' },
-    { id: 2, name: 'Production' },
-    { id: 3, name: 'Quality Control' }
-]
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function DropdownBoxFunction() {
-    const [selected, setSelected] = useState(department[2])
+export default function DropdownBoxFunction({ list }) {
+    const [selected, setSelected] = useState(list[0])
 
     return (
         <Listbox value={selected} onChange={setSelected}>
@@ -34,8 +29,9 @@ export default function DropdownBoxFunction() {
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                         >
-                            <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                {department.map((person) => (
+                            <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+                            >
+                                {list.map((person) => (
                                     <Listbox.Option
                                         key={person.id}
                                         className={({ active }) =>
