@@ -76,7 +76,7 @@ export default function () {
         })
         await supabase.from("notifications").insert({
             title: `profile update`,
-            message: `${fn} ${ls} updated his profile`,
+            message: `${fn} ${ln} updated his profile`,
             company: companyID,
             employee: id
         })
