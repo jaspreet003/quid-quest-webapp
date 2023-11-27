@@ -4,18 +4,28 @@ import { useState } from "react"
 
 const features = [
   {
-    title: "Secure Authentication",
-    subTitle: "With robust login systems and JWT token authentication, users can be assured of secure access to their expense data",
+    title: "Real-Time Expense Reporting",
+    subTitle: "Employees can log expenses as they occur, with the ability to upload receipts and add details, ensuring timely and accurate financial tracking.",
     image: "/images/screenshot.png"
   },
   {
-    title: "Secure Authentication2",
+    title: "Secure Authentication",
     subTitle: "With bust login systems and JWT token authentication, users can be assured of secure access to their expense data",
     image: "/images/onboardingBackground.jpg"
   },
   {
-    title: "Secure Authentication3",
-    subTitle: "With thrust login systems and JWT token authentication, users can be assured of secure access to their expense data",
+    title: "Managerial Oversight",
+    subTitle: "Managers have the ability to approve or disapprove reported expenses, providing control over budget and expenditure within different departments.",
+    image: "/images/screenshot.png"
+  },
+  {
+    title: "Categorized Expenses",
+    subTitle: "Users can classify expenses into predefined categories, simplifying analysis and reporting for both personal and business financial insights.",
+    image: "/images/screenshot.png"
+  },
+  {
+    title: "Invitation and Role Management",
+    subTitle: "Managers can invite new employees to the platform and assign roles, streamlining the onboarding process and maintaining the organizational structure within the app.",
     image: "/images/screenshot.png"
   },
 ]
@@ -97,8 +107,8 @@ export default function Home() {
             </div>
           </div>
           {/* screenshot */}
-          <div className="pt-8 bg-white m-6 rounded-lg shadow-md">
-            <p className="m-auto px-4 text-lg pb-4">{activeFeature.subTitle}</p>
+          <div className="py-4  m-6 rounded-lg shadow-md">
+            <p className="m-auto bg-white text-green-900 rounded-lg py-4 px-4 text-lg mb-4">{activeFeature.subTitle}</p>
             <img src={activeFeature.image} className="rounded-b-lg  border-t-2 border-gray-400" />
           </div>
         </div>
