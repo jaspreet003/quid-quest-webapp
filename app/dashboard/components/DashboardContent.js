@@ -17,6 +17,7 @@ export default function DashboardContent() {
                 setExpenseData(data);
                 if (data.notifications) {
                     localStorage.setItem("notificationCount", data.notifications.length)
+                    localStorage.setItem("notifications", JSON.stringify(data.notifications))
                 }
             }
         }
@@ -150,7 +151,6 @@ export default function DashboardContent() {
                     ))
                 }
                 </ul>
-                {/* item */}
             </div>
         </div>
 
