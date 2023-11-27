@@ -7,18 +7,19 @@ export default function DashboardContent() {
     const [filter, setFilter] = useState('this month')
     const [expenseData, setExpenseData] = useState(null);
     const supabase = createClientComponentClient(); // Make sure you initialize this properly
+    const companyID = JSON.parse(localStorage.getItem("companyDetails")).id;
 
-    useEffect(() => {
-        const fetchExpensesData = async () => {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (user && user.id) {
-                const { data, error } = await supabase.rpc('dashboard_expenses', { user_id: user.id, time_period: filter });
-                if (!error && data) {
-                    console.log(data)
-                    setExpenseData(data);
-                }
+
+    const fetchExpensesData = async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user && user.id) {
+            const { data, error } = await supabase.rpc('dashboard_expenses_v2', { user_id: user.id, time_period: filter });
+            if (!error && data) {
+                setExpenseData(data);
             }
-        };
+        }
+    };
+    useEffect(() => {
         fetchExpensesData();
     }, [filter]);
     const buttonClass = (f) => {
@@ -129,18 +130,25 @@ export default function DashboardContent() {
             {/* notification tab */}
             <div className='hidden lg:flex flex-col border-2 rounded-xl p-5 border-gray-200 shadow-lg bg-slate-100 w-1/3'>
                 <h2 className='text-2xl text-gray-900 font-medium'>Notifications</h2>
-
-                <div className='mt-2 border-2 bg-white border-gray-400 rounded-xl shadow-sm '>
-                    <div className='flex flex-row px-2 py-1.5 space-x-3 items-center'>
-                        <div className='w-10 h-10 rounded-full bg-slate-800'></div>
-                        <div>
-                            <p className='text-lg text-gray-800'>New expense added</p>
-                            <p className='text-md text-gray-500'>Sandeep Singh added new expense</p>
-                        </div>
-
-
-                    </div>
-                </div>
+                <ul>{
+                    expenseData.notifications && expenseData.notifications.map((n) => (
+                        <li key={n.id}>
+                            <a href={n.link} target='_blank'>
+                                <div className='mt-2 border-2 bg-white border-gray-400 rounded-xl shadow-sm '>
+                                    <div className='flex flex-row px-2 py-1.5 space-x-3 items-center'>
+                                        <div className='w-10 h-10 rounded-full bg-slate-800'></div>
+                                        <div>
+                                            <p className='text-lg text-gray-800'>{n.title}</p>
+                                            <p className='text-md text-gray-500'>{n.message}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    ))
+                }
+                </ul>
+                {/* item */}
             </div>
         </div>
 
