@@ -78,6 +78,35 @@ export default function Drawer() {
     setInterMenuState(newState);
   }
 
+  const findNameFromPath = (path, menu) => {
+    const menuItem = menu.find(item => path === item.href);
+    return menuItem ? menuItem.name : '';
+  };
+
+  const findSubmenuName = (path, mainMenu) => {
+    const mainItem = mainMenu.find(item => path.startsWith(item.href) && item.internalMenu);
+    return mainItem ? findNameFromPath(path, mainItem.internalMenu) : '';
+  };
+
+  const convertPathToBreadcrumb = (path) => {
+    const pathParts = path.split('/').filter(Boolean);
+    let breadcrumb = [];
+
+    for (let i = 0; i < pathParts.length; i++) {
+      let currentPath = `/${pathParts.slice(0, i + 1).join('/')}`;
+
+      let name = findNameFromPath(currentPath, navigation);
+      if (!name) {
+        name = findSubmenuName(currentPath, navigation);
+      }
+
+      if (name) {
+        breadcrumb.push(name);
+      }
+    }
+
+    return breadcrumb.join(' > ');
+  };
 
   return (
     <>
@@ -289,7 +318,7 @@ export default function Drawer() {
           <Bars3Icon className="h-6 w-6" aria-hidden="true" />
         </button>
         <div className="flex-1 text-sm font-semibold leading-6 text-white">
-          Dashboard
+          {convertPathToBreadcrumb(path)}
         </div>
         <a href="/dashboard/notifications">
           <span className="absolute right-3 top-0 px-2 rounded-full bg-red-400 text-white font-semibold text-lg">{notificationCount}</span>
