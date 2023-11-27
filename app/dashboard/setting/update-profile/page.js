@@ -15,6 +15,7 @@ export default function () {
 
 
     const id = JSON.parse(localStorage.getItem("employeeDetails")).id;
+    const companyID = JSON.parse(localStorage.getItem("companyDetails")).id;
 
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
