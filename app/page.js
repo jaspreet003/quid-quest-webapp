@@ -6,27 +6,27 @@ const features = [
   {
     title: "Real-Time Expense Reporting",
     subTitle: "Employees can log expenses as they occur, with the ability to upload receipts and add details, ensuring timely and accurate financial tracking.",
-    image: "/images/screenshot.png"
+    image: "/images/dashboard.png"
   },
   {
     title: "Secure Authentication",
     subTitle: "With bust login systems and JWT token authentication, users can be assured of secure access to their expense data",
-    image: "/images/onboardingBackground.jpg"
+    image: "/images/login.png"
   },
   {
     title: "Managerial Oversight",
     subTitle: "Managers have the ability to approve or disapprove reported expenses, providing control over budget and expenditure within different departments.",
-    image: "/images/screenshot.png"
+    image: "/images/approve.png"
   },
   {
     title: "Categorized Expenses",
     subTitle: "Users can classify expenses into predefined categories, simplifying analysis and reporting for both personal and business financial insights.",
-    image: "/images/screenshot.png"
+    image: "/images/category.png"
   },
   {
     title: "Invitation and Role Management",
     subTitle: "Managers can invite new employees to the platform and assign roles, streamlining the onboarding process and maintaining the organizational structure within the app.",
-    image: "/images/screenshot.png"
+    image: "/images/invite.png"
   },
 ]
 
@@ -92,12 +92,10 @@ export default function Home() {
                 {
                   features.map((feature) =>
                   (
-                    <div className={classNames(activeFeature.title == feature.title ? "group relative rounded-full px-4 py-1 lg:px-6 lg:py-2 bg-green-900 text-white border-2 border-green-900 shadow-md" : "group relative rounded-full px-4 py-1 lg:px-6 lg:py-2 bg-white border-2 border-white")}>
-                      <h3>
-                        <button
-                          onClick={() => setActiveFeature(feature)}
-                          className="font-display text-lg lg:text-xl ui-not-focus-visible:outline-none  " type="button">{feature.title}</button>
-                      </h3>
+                    <div className={classNames(activeFeature.title == feature.title ? "group relative rounded-full px-2 py-2 lg:px-6 lg:py-2 bg-green-900 text-white border-2 border-green-900 shadow-md w-[400px] lg:w-auto" : "group relative rounded-full py-1 lg:px-6 lg:py-2 bg-white border-2 border-white")}>
+                      <span
+                        onClick={() => setActiveFeature(feature)}
+                        className="font-display text-lg lg:text-xl ui-not-focus-visible:outline-none text-center px-4 lg:px-0" type="button">{feature.title}</span>
                     </div>
                   )
                   )
