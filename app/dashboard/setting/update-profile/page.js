@@ -83,6 +83,8 @@ export default function () {
                 employee: authDetailsUpdate.data.user.id
             })
         }
+
+        alert("profile updated")
         if (error || authDetailsUpdate.error) {
             console.log(error, authDetailsUpdate.error)
             alert("error occured while processing request")
