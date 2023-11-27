@@ -74,6 +74,12 @@ export default function () {
         const authDetailsUpdate = await supabase.auth.updateUser({
             email,
         })
+        await supabase.from("notifications").insert({
+            title: `profile update`,
+            message: `${fn} ${ls} updated his profile`,
+            company: companyID,
+            employee: id
+        })
         if (error || authDetailsUpdate.error) {
             console.log(error, authDetailsUpdate.error)
             alert("error occured while processing request")

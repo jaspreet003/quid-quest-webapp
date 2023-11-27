@@ -24,6 +24,8 @@ export default function () {
         }
     };
 
+    const companyID = JSON.parse(localStorage.getItem("companyDetails")).id;
+
     const uploadToSupabase = async (file) => {
         const { data, error } = await supabase.storage
             .from('avatars') // Use the appropriate 'bucket' name where you want to store the images
@@ -61,6 +63,12 @@ export default function () {
                 institutenumber: inst
             })
             .eq('id', id);
+        await supabase.from("notifications").insert({
+            title: `Employee details updated`,
+            message: `${fname} ${lname}'s employee data updated`,
+            company: companyID,
+            employee: id
+        })
         router.push('/dashboard/employees')
         if (error) {
             console.error('Error updating employee data: ', error.message);

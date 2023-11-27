@@ -20,9 +20,6 @@ export default function addExpense() {
     const [desc, setDesc] = useState("");
     const [uploading, setUploading] = useState(false); // State to show uploading progress
 
-
-
-
     const status = 'pending';
 
     const handleFileChange = (event) => {
@@ -61,6 +58,8 @@ export default function addExpense() {
 
         const empDetails = JSON.parse(localStorage.getItem("employeeDetails"))
         const employeeId = empDetails.id
+        const fn = empDetails.firstname;
+        const ln = empDetails.lastname;
 
         const req = await supabase.auth.getUser();
         const userId = req.data.user.id;
@@ -69,13 +68,15 @@ export default function addExpense() {
             departmentIdOfUser,
             companyId,
             employeeId,
-            userId
+            userId,
+            fn,
+            ln
         }
     }
 
 
     async function createExpense() {
-        const { departmentIdOfUser, companyId, employeeId, userId } = await getCatDeps();
+        const { departmentIdOfUser, companyId, employeeId, userId, fn, ln } = await getCatDeps();
         const { error } = await supabase.from('expenses').insert({
             amount: am,
             category: cat,
@@ -90,6 +91,11 @@ export default function addExpense() {
         if (error) {
             console.log("error create expense, ", error)
         } else {
+            await supabase.from("notifications").insert({
+                title: "new expense added",
+                message: `${fn} ${ln} added new expense`,
+                company: companyId
+            })
             router.push('/dashboard/expenses');
         }
     }
