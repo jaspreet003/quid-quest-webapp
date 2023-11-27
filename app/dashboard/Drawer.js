@@ -9,11 +9,11 @@ import {
   HomeIcon,
   UsersIcon,
   XMarkIcon,
-  ChartPieIcon
 } from "@heroicons/react/24/outline";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { usePathname, useRouter } from "next/navigation";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { BellIcon } from "@heroicons/react/24/solid";
 const settingsNav = [
   {
     name: "Update Password",
@@ -33,45 +33,39 @@ const settingsNav = [
   }
 ]
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: false },
+  { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
   {
     name: "Employees",
     href: "/dashboard/employees",
     icon: UsersIcon,
-    current: false,
   },
   {
     name: "Expenses",
     href: "/dashboard/expenses",
     icon: FolderIcon,
-    current: false,
   },
   {
     name: "Setting",
     href: "/dashboard/setting",
     icon: Cog6ToothIcon,
-    current: false,
     internalMenu: settingsNav,
   },
 ];
 
-
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
 export default function Drawer() {
+  const path = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(false);
   const [internalMenuState, setInterMenuState] = useState(navigation.map((_) => false))
 
   const router = useRouter();
-  const path = usePathname();
+  const checkPathForMenuName = (name) => path.includes(name);
+  const notificationCount = localStorage.getItem("notificationCount");
 
-  if (path.includes("setting")) {
+  if (checkPathForMenuName("setting")) {
     internalMenuState[3] = true;
   }
+
+
   const supabase = createClientComponentClient();
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -83,6 +77,8 @@ export default function Drawer() {
     newState[i] = !newState[i];
     setInterMenuState(newState);
   }
+
+
   return (
     <>
       <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -152,21 +148,47 @@ export default function Drawer() {
                         <ul role="list" className="-mx-2 space-y-1">
                           {navigation.map((item, i) => (
                             <li key={item.name}>
-                              <a
+                              {!item.internalMenu ? <a
                                 href={item.href}
-                                className={classNames(
-                                  currentPage
-                                    ? "bg-gray-800 text-white"
-                                    : "text-gray-400 hover:text-white hover:bg-gray-800",
-                                  "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                                )}
+                                className={"text-gray-400 hover:text-white hover:bg-green-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"}
                               >
                                 <item.icon
                                   className="h-6 w-6 shrink-0"
                                   aria-hidden="true"
                                 />
                                 {item.name}
-                              </a>
+                              </a> :
+                                <>
+                                  <button type="button"
+                                    className={"text-gray-400 hover:text-white hover:bg-green-800 w-full group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"}
+                                    onClick={() => handleInternalMenuToggle(i)}
+                                  >
+                                    <div className="w-full flex flex-row justify-between">
+                                      <div className="flex flex-row gap-x-3">
+                                        <item.icon
+                                          className="h-6 w-6 shrink-0"
+                                          aria-hidden="true"
+                                        />
+                                        {item.name}
+                                      </div>
+                                      {!internalMenuState[i] ? <ChevronDownIcon className="w-6 h-6" /> :
+                                        <ChevronUpIcon className="w-6 h-6" />}
+
+                                    </div>
+                                  </button>
+                                  <ul role="list" className="w-full space-y-2 mt-2 ml-2">
+                                    {internalMenuState[i] && item.internalMenu.map((inItem) => {
+                                      return (
+                                        <li key={inItem.name} className="w-full">
+                                          <a href={inItem.href} className=" hover:bg-green-900  text-white py-3 text-sm px-8">
+                                            {inItem.name}
+                                          </a>
+                                        </li>
+                                      )
+                                    })}
+                                  </ul>
+                                </>
+                              }
                             </li>
                           ))}
                         </ul>
@@ -269,14 +291,9 @@ export default function Drawer() {
         <div className="flex-1 text-sm font-semibold leading-6 text-white">
           Dashboard
         </div>
-        <a href="#">
-          <span className="sr-only">Your profile</span>
-          <img
-            className="h-8 w-8 rounded-full bg-gray-800"
-            src="https://picsum.photos/200"
-            alt=""
-
-          />
+        <a href="/dashboard/notifications">
+          <span className="absolute right-3 top-0 px-2 rounded-full bg-red-400 text-white font-semibold text-lg">{notificationCount}</span>
+          <BellIcon className="h-8 w-8 text-white" />
         </a>
       </div>
     </>

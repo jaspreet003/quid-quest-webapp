@@ -7,7 +7,6 @@ export default function DashboardContent() {
     const [filter, setFilter] = useState('this month')
     const [expenseData, setExpenseData] = useState(null);
     const supabase = createClientComponentClient(); // Make sure you initialize this properly
-    const companyID = JSON.parse(localStorage.getItem("companyDetails")).id;
 
 
     const fetchExpensesData = async () => {
@@ -16,6 +15,9 @@ export default function DashboardContent() {
             const { data, error } = await supabase.rpc('dashboard_expenses_v2', { user_id: user.id, time_period: filter });
             if (!error && data) {
                 setExpenseData(data);
+                if (data.notifications) {
+                    localStorage.setItem("notificationCount", data.notifications.length)
+                }
             }
         }
     };
