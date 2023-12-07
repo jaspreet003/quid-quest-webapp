@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.androidclass2023.quidquest",
+            "sha256_cert_fingerprints": [
+                "81:AD:65:9E:01:E2:3C:0D:01:7E:CD:81:BF:63:8E:27:D3:FA:98:42:4D:BB:96:81:D6:3F:AC:AA:C8:06:5A:13"
+            ]
+        }
+    }
+]
