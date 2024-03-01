@@ -95,7 +95,11 @@ export default function Login() {
 
       <div className="h-2" />
       <StandardButtonGreen btnText={"login"} onClick={handleSignIn} />
-
+      <div>
+        <h3>Demo Credentials</h3>
+        <p>email: demo@manager.com</p>
+        <p>password: demo123</p>
+      </div>
       <Link
         href="forgot-password"
         className="mt-1 leading-6 text-right text-sm text-green-500 hover:text-green-600"
